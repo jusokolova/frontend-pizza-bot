@@ -26,6 +26,10 @@
       "user/*": ["./src/user/*"],
       "talk": ["./src/talk"],
       "talk/*": ["./src/talk/*"],
+      "event": ["./src/event"],
+      "event/*": ["./src/event/*"],
+      "shared": ["./src/shared"],
+      "shared/*": ["./src/shared/*"],
       "integration": ["./src/integration"],
       "integration/*": ["./src/integration/*"]
     }

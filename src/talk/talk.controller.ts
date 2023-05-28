@@ -9,14 +9,14 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 
+import { DateInterceptor } from 'shared/interceptors';
 import { TalkDto, TalkIDDto } from './dto/talk.dto';
 import { TalkService } from './talk.service';
 import {
   AuthorExistsInterceptor,
   TalkAlreadyExistsInterceptor,
   TalkNonexistentInterceptor,
-} from 'talk/interceptors';
-import { DateInterceptor } from 'talk/interceptors/date.interceptor';
+} from './interceptors';
 
 @Controller('/api/talk')
 export class TalkController {
@@ -34,7 +34,7 @@ export class TalkController {
   @UseInterceptors(
     AuthorExistsInterceptor,
     TalkAlreadyExistsInterceptor,
-    // DateInterceptor,
+    DateInterceptor,
   )
   async addUser(@Body() talk: TalkDto) {
     return this.talkService.addTalk(talk);
