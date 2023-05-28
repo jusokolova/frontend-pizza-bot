@@ -6,8 +6,9 @@ const table = {
 };
 
 const getLastUser = () => table.users[table.users.length - 1]?.id || 0;
+const findUser = ({ id }) => table.users.find((user) => user.id === id);
 const editUser = ({ id }, data) => {
-  const { id: userId, ...rest } = table.users.find((user) => user.id === id);
+  const { id: userId, ...rest } = findUser(id);
   return { id: userId, ...rest, ...data };
 };
 
@@ -23,5 +24,9 @@ export class UserService {
     console.log(data);
     editUser(id, data);
     return table.users;
+  }
+
+  async getUser(id: UserIDDto): Promise<UserDto> {
+    return findUser(id);
   }
 }

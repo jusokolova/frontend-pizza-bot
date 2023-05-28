@@ -5,6 +5,7 @@ import {
   Patch,
   Query,
   UseGuards,
+  Get,
 } from '@nestjs/common';
 
 import { UserDto, UserIDDto } from './dto/user.dto';
@@ -15,6 +16,11 @@ import { UserService } from './user.service';
 @UseGuards(UserExistsGuard)
 export class UserController {
   constructor(private readonly userService: UserService) {}
+
+  @Get()
+  async getUser(@Query() id: UserIDDto) {
+    return this.userService.getUser(id);
+  }
 
   @Post('/add')
   async addUser(@Param() user: UserDto) {
