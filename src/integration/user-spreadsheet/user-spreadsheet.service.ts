@@ -1,8 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { GoogleSpreadsheetRow } from 'google-spreadsheet';
-import { GoogleSpreadsheetService } from 'integration/google-spreadsheet.service';
-import { editRow, mapUsersRow } from 'integration/utils';
+
+import { EXCEPTIONS } from 'exceptions';
 import { UserDto, UserIDDto } from 'user/dto/user.dto';
+import { GoogleSpreadsheetService } from '../google-spreadsheet.service';
+import { editRow, mapUsersRow } from '../utils';
 
 @Injectable()
 export class UserSpreadsheetService {
@@ -50,7 +52,7 @@ export class UserSpreadsheetService {
     try {
       await spreadsheet.addRow(data);
     } catch (e) {
-      throw new Error('error');
+      throw new Error(EXCEPTIONS.ADD_ROW_FAIL);
     }
   }
 

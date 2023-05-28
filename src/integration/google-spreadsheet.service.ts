@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { GoogleSpreadsheet } from 'google-spreadsheet';
 
+import { SPREADSHEETS } from '../constants';
+
 @Injectable()
 export class GoogleSpreadsheetService {
   spreadsheet;
@@ -19,21 +21,21 @@ export class GoogleSpreadsheetService {
 
   async getUserSpreadsheet() {
     await this.initialize();
-    return this.spreadsheet.sheetsByTitle['User'];
+    return this.spreadsheet.sheetsByTitle[SPREADSHEETS.USER];
   }
 
   async getEventSpreadsheet() {
     await this.initialize();
-    return this.spreadsheet.sheetsByTitle['Event'];
+    return this.spreadsheet.sheetsByTitle[SPREADSHEETS.EVENT];
   }
 
   async getTalkSpreadsheet() {
     await this.initialize();
-    return this.spreadsheet.sheetsByTitle['Talk'];
+    return this.spreadsheet.sheetsByTitle[SPREADSHEETS.TALK];
   }
 
   async getCandidateSpreadsheet() {
     await this.initialize();
-    return this.spreadsheet.sheetsByTitle['Candidate'];
+    return this.spreadsheet.sheetsByTitle[SPREADSHEETS.CANDIDATE];
   }
 }

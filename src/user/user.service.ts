@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { UserDto, UserIDDto } from 'user/dto/user.dto';
-import { UserSpreadsheetService } from 'integration/user-spreadsheet/user-spreadsheet.service';
+import { UserSpreadsheetService } from 'integration';
 import { mapNewUser } from 'integration/utils';
+import { UserDto, UserIDDto } from 'user/dto/user.dto';
 
 @Injectable()
 export class UserService {

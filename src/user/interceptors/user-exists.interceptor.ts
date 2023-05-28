@@ -7,7 +7,8 @@ import {
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 
-import { UserSpreadsheetService } from 'integration/user-spreadsheet/user-spreadsheet.service';
+import { EXCEPTIONS } from 'exceptions';
+import { UserSpreadsheetService } from 'integration';
 
 @Injectable()
 export class UserExistsInterceptor implements NestInterceptor {
@@ -22,10 +23,7 @@ export class UserExistsInterceptor implements NestInterceptor {
 
     if (body.name) {
       if (rows.find((user) => user.name === body.name)) {
-        throw new HttpException(
-          'Такой пользователь уже добавлен в таблицу',
-          400,
-        );
+        throw new HttpException(EXCEPTIONS.USER_ALREADY_EXISTS, 400);
       }
     }
 

@@ -7,7 +7,8 @@ import {
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 
-import { UserSpreadsheetService } from 'integration/user-spreadsheet/user-spreadsheet.service';
+import { EXCEPTIONS } from 'exceptions';
+import { UserSpreadsheetService } from 'integration';
 
 @Injectable()
 export class UserNonexistentInterceptor implements NestInterceptor {
@@ -23,7 +24,7 @@ export class UserNonexistentInterceptor implements NestInterceptor {
     if (
       !rows.find((user) => user.id === query?.id || user.name === body?.name)
     ) {
-      throw new HttpException('Такого пользователя в таблице нет', 404);
+      throw new HttpException(EXCEPTIONS.USER_NOT_FOUND, 404);
     }
 
     return next.handle();

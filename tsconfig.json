@@ -19,6 +19,7 @@
     "noFallthroughCasesInSwitch": false,
     "paths": {
       "types": ["./src/types"],
+      "exceptions": ["./src/exceptions"],
       "app": ["./src/app"],
       "app/*": ["./src/app/*"],
       "user": ["./src/user"],
