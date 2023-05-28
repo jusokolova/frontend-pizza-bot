@@ -2,10 +2,10 @@
 FROM node:18
 
 # Set the working directory in the container
-WORKDIR /dist
+WORKDIR /
 
 # Copy the application files into the working directory
-COPY . /dist
+COPY . /
 
 USER node
 
