@@ -1,34 +1,40 @@
 import {
   Controller,
-  Param,
+  Body,
   Post,
   Patch,
   Query,
-  UseGuards,
+  UseInterceptors,
   Get,
+  Header,
 } from '@nestjs/common';
 
 import { UserDto, UserIDDto } from './dto/user.dto';
-import { UserExistsGuard } from './guards/user-exists.guard';
 import { UserService } from './user.service';
+import { UserExistsInterceptor } from './interceptors/user-exists.interceptor';
+import { UserNonexistentInterceptor } from './interceptors/user-nonexistent.interceptor';
 
 @Controller('/api/user')
-@UseGuards(UserExistsGuard)
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Get()
-  async getUser(@Query() id: UserIDDto) {
-    return this.userService.getUser(id);
+  @Get('/')
+  @UseInterceptors(UserNonexistentInterceptor)
+  async getUser(@Query() id: UserIDDto, @Body() user: UserDto) {
+    return this.userService.getUser(id, user);
   }
 
   @Post('/add')
-  async addUser(@Param() user: UserDto) {
+  @UseInterceptors(UserExistsInterceptor)
+  @Header('Content-Type', 'application/json')
+  async addUser(@Body() user: UserDto) {
     return this.userService.addUser(user);
   }
 
   @Patch('/edit')
-  async editUser(@Query() id: UserIDDto, @Param() user: UserDto) {
+  @UseInterceptors(UserNonexistentInterceptor)
+  @Header('Content-Type', 'application/json')
+  async editUser(@Query() id: UserIDDto, @Body() user: UserDto) {
     return this.userService.editUser(id, user);
   }
 }
