@@ -1,6 +1,5 @@
-import { IsDefined, IsNumber, IsString, IsBase64, Is } from 'class-validator';
+import { IsDefined, IsNumber, IsString, IsBase64 } from 'class-validator';
 
-import { USER } from 'constants';
 import type { RoleType } from 'types';
 
 export class UserIDDto {
@@ -18,7 +17,7 @@ export class UserDto {
   @IsString()
   telegram?: string;
 
-  role?: RoleType = USER;
+  role?: RoleType;
 
   @IsBase64()
   avatar?: string;

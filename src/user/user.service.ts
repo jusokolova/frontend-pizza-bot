@@ -1,27 +1,27 @@
 import { Injectable } from '@nestjs/common';
+import { UserSpreadsheetService } from 'integration';
+import { mapNewUser } from 'integration/utils';
 import { UserDto, UserIDDto } from 'user/dto/user.dto';
-
-const table = {
-  users: [],
-};
-
-const getLastUser = () => table.users[table.users.length - 1]?.id || 0;
-const editUser = ({ id }, data) => {
-  const { id: userId, ...rest } = table.users.find((user) => user.id === id);
-  return { id: userId, ...rest, ...data };
-};
 
 @Injectable()
 export class UserService {
-  async addUser(data: UserDto): Promise<any> {
-    console.log(data);
-    table.users.push({ ...data, id: getLastUser() + 1 });
-    return table.users;
+  constructor(private userSheet: UserSpreadsheetService) {}
+
+  async addUser(data: UserDto): Promise<(UserDto & UserIDDto) | string> {
+    const newId = (await this.userSheet.getLastUserId()) + 1;
+    const newUser = {
+      ...mapNewUser(data),
+      id: newId,
+    };
+    await this.userSheet.addUser(newUser);
+    return newUser;
   }
 
   async editUser(id: UserIDDto, data: UserDto): Promise<any> {
-    console.log(data);
-    editUser(id, data);
-    return table.users;
+    return await this.userSheet.editUser(id, data);
+  }
+
+  async getUser(id?: UserIDDto, data?: UserDto): Promise<UserDto | string> {
+    return await this.userSheet.getUser(id, data);
   }
 }
