@@ -1,4 +1,4 @@
-import { IsDefined, IsNumber, IsString } from 'class-validator';
+import { IsDefined, IsNumber, IsString, IsBase64, Is } from 'class-validator';
 
 import { USER } from 'constants';
 import type { RoleType } from 'types';
@@ -16,10 +16,10 @@ export class UserDto {
 
   @IsDefined()
   @IsString()
-  telegram: string;
+  telegram?: string;
 
-  role: RoleType = USER;
+  role?: RoleType = USER;
 
-  @IsString()
-  avatar: string;
+  @IsBase64()
+  avatar?: string;
 }
