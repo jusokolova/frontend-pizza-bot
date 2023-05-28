@@ -5,8 +5,9 @@ meta:
     version: 18
 build:
   artifacts:
-    '*': /dist
+    '*': dist
   command: node dist/main
 run:
+  scriptName: dist/main.js
   persistenceMount: /data
   containerPort: 3000
