@@ -2,19 +2,19 @@ import { Injectable } from '@nestjs/common';
 import { GoogleSpreadsheetRow } from 'google-spreadsheet';
 
 import { EXCEPTIONS } from 'exceptions';
-import { UserDto, UserIDDto } from 'user/dto/user.dto';
+import { TalkDto, TalkIDDto } from 'talk/dto/talk.dto';
 import { GoogleSpreadsheetService } from '../google-spreadsheet.service';
-import { editRow, mapUsersRow } from '../utils';
+import { editRow, mapTalksRow } from '../utils';
 
 @Injectable()
-export class UserSpreadsheetService {
+export class TalkSpreadsheetService {
   spreadsheet;
   rows;
 
   constructor(private googleSpreadsheets: GoogleSpreadsheetService) {}
 
   private async initialize() {
-    this.spreadsheet = await this.googleSpreadsheets.getUserSpreadsheet();
+    this.spreadsheet = await this.googleSpreadsheets.getTalkSpreadsheet();
     this.rows = await this.spreadsheet.getRows();
   }
 
@@ -25,27 +25,27 @@ export class UserSpreadsheetService {
 
   async getRows() {
     await this.initialize();
-    return this.rows.map(mapUsersRow);
+    return this.rows.map(mapTalksRow);
   }
 
-  async getLastUserId(): Promise<number> {
+  async getLastTalkId(): Promise<number> {
     await this.initialize();
     const rows = await this.getRows();
 
     return Number(rows[rows.length - 1]?.id) || 0;
   }
 
-  async getUser(
-    { id }: UserIDDto,
-    { name }: UserDto,
+  async getTalk(
+    { id }: TalkIDDto,
+    { title }: TalkDto,
   ): Promise<GoogleSpreadsheetRow | string> {
     await this.initialize();
     const rows = await this.getRows();
 
-    return rows.find((user) => user.id === id || user.name === name);
+    return rows.find((talk) => talk.id === id || talk.title === title);
   }
 
-  async addUser(data: UserDto & UserIDDto): Promise<void | string> {
+  async addTalk(data: TalkDto & TalkIDDto): Promise<void | string> {
     await this.initialize();
     const spreadsheet = await this.getSpreadsheet();
 
@@ -56,7 +56,7 @@ export class UserSpreadsheetService {
     }
   }
 
-  async editUser({ id }: UserIDDto, data: UserDto): Promise<void | string> {
+  async editTalk({ id }: TalkIDDto, data: TalkDto): Promise<void | string> {
     await this.initialize();
     const row = this.rows[Number(id) - 1];
     editRow(row, data);

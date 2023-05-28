@@ -24,6 +24,8 @@
       "app/*": ["./src/app/*"],
       "user": ["./src/user"],
       "user/*": ["./src/user/*"],
+      "talk": ["./src/talk"],
+      "talk/*": ["./src/talk/*"],
       "integration": ["./src/integration"],
       "integration/*": ["./src/integration/*"]
     }
