@@ -1,9 +1,8 @@
-import { Injectable, UseInterceptors } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { GoogleSpreadsheetRow } from 'google-spreadsheet';
 import { GoogleSpreadsheetService } from 'integration/google-spreadsheet.service';
 import { editRow, mapUsersRow } from 'integration/utils';
 import { UserDto, UserIDDto } from 'user/dto/user.dto';
-import { UserExistsInterceptor } from 'user/interceptors/user-exists.interceptor';
 
 @Injectable()
 export class UserSpreadsheetService {

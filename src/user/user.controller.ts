@@ -11,8 +11,10 @@ import {
 
 import { UserDto, UserIDDto } from './dto/user.dto';
 import { UserService } from './user.service';
-import { UserExistsInterceptor } from './interceptors/user-exists.interceptor';
-import { UserNonexistentInterceptor } from './interceptors/user-nonexistent.interceptor';
+import {
+  UserExistsInterceptor,
+  UserNonexistentInterceptor,
+} from './interceptors';
 
 @Controller('/api/user')
 export class UserController {
