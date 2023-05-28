@@ -7,5 +7,4 @@ export const EXCEPTIONS = {
   TALK_ALREADY_EXISTS: 'Такой доклад уже добавлен в таблицу',
   TALK_NOT_FOUND: 'Такого доклада в таблице нет',
   DATE_INVALID: 'Дата не может быть меньше текущей',
-  INVALID_ARGUMENTS: 'Неправильные параметры запроса',
 };

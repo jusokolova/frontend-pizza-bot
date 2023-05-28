@@ -34,7 +34,7 @@ export class TalkController {
   @UseInterceptors(
     AuthorExistsInterceptor,
     TalkAlreadyExistsInterceptor,
-    DateInterceptor,
+    // DateInterceptor,
   )
   async addUser(@Body() talk: TalkDto) {
     return this.talkService.addTalk(talk);
