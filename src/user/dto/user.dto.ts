@@ -1,24 +1,26 @@
-import { IsDefined, IsNumber, IsString, IsBase64 } from 'class-validator';
+import { IsOptional, IsString, IsBase64, IsDefined } from 'class-validator';
 
 import type { RoleType } from 'types';
 
 export class UserIDDto {
   @IsDefined()
-  @IsNumber()
-  id: number;
+  @IsString()
+  id: string;
 }
 
 export class UserDto {
-  @IsDefined()
+  @IsOptional()
   @IsString()
   name: string;
 
-  @IsDefined()
+  @IsOptional()
   @IsString()
-  telegram?: string;
+  telegram: string;
 
-  role?: RoleType;
+  @IsOptional()
+  role: RoleType;
 
+  @IsOptional()
   @IsBase64()
-  avatar?: string;
+  avatar: string;
 }
