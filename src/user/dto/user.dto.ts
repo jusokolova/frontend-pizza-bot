@@ -1,6 +1,6 @@
-import { IsDefined, IsNumber, IsString, IsBase64, Is } from 'class-validator';
+import { IsDefined, IsNumber, IsString, IsBase64 } from 'class-validator';
 
-import { USER } from 'constants';
+import { USER } from '../../constants';
 import type { RoleType } from 'types';
 
 export class UserIDDto {

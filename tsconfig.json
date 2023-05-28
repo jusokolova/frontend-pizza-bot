@@ -18,12 +18,13 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "constants": ["./src/constants"],
       "types": ["./src/types"],
       "app": ["./src/app"],
       "app/*": ["./src/app/*"],
       "user": ["./src/user"],
-      "user/*": ["./src/user/*"]
+      "user/*": ["./src/user/*"],
+      "integration": ["./src/integration"],
+      "integration/*": ["./src/integration/*"]
     }
   }
 }
