@@ -1,31 +1,42 @@
 import { Injectable } from '@nestjs/common';
+
 import type { IdType } from 'types';
-import { UserSpreadsheetService } from 'integration';
-import { mapNewUser } from 'integration/utils';
-import { UserDto } from 'user/dto/user.dto';
+import { EventSpreadsheetService } from 'integration';
 import { EventDto } from 'event/dto/event.dto';
 
 @Injectable()
 export class EventService {
-  constructor(private userSheet: UserSpreadsheetService) {}
+  constructor(private eventSheet: EventSpreadsheetService) {}
 
   async addEvent(
     data: EventDto,
   ): Promise<(EventDto & { id: IdType }) | string> {
-    const newId = (await this.userSheet.getLastUserId()) + 1;
-    const newUser = {
-      ...mapNewUser(data),
+    const newId = (await this.eventSheet.getLastEventId()) + 1;
+    const newEvent = {
+      ...data,
       id: newId,
     };
-    await this.userSheet.addUser(newUser);
-    return newUser;
+    await this.eventSheet.addEvent(newEvent);
+    return newEvent;
   }
 
-  async editEvent(id: IdType, data: UserDto): Promise<any> {
-    return await this.userSheet.editUser(id, data);
+  async editEvent(id: IdType, data: EventDto): Promise<any> {
+    return await this.eventSheet.editEvent(id, data);
   }
 
-  async getEvent(id?: IdType, data?: UserDto): Promise<UserDto | string> {
-    return await this.userSheet.getUser(id, data);
+  async getEvent(id?: IdType, data?: EventDto): Promise<EventDto | string> {
+    return await this.eventSheet.getEvent(id, data);
+  }
+
+  async getCurrentEvent(): Promise<EventDto | string> {
+    return await this.eventSheet.getCurrentEvent();
+  }
+
+  async startEvent(id?: IdType): Promise<void> {
+    return await this.eventSheet.startEvent(id);
+  }
+
+  async finishEvent(id?: IdType): Promise<void> {
+    return await this.eventSheet.finishEvent(id);
   }
 }

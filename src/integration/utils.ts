@@ -4,6 +4,7 @@ import type { IdType } from 'types';
 import { UserDto } from 'user/dto/user.dto';
 import { TalkDto } from 'talk/dto/talk.dto';
 import { USER } from '../constants';
+import { EventDto } from 'event/dto/event.dto';
 
 export const mapNewUser = (data) => ({
   ...data,
@@ -30,11 +31,13 @@ export const mapTalksRow = (
   authorId: row.authorId,
 });
 
-export const mapEventsRow = (row: GoogleSpreadsheetRow) => ({
+export const mapEventsRow = (
+  row: GoogleSpreadsheetRow,
+): EventDto & { id: IdType } => ({
   id: row.id,
   date: row.date,
-  isStarted: row.isStarted,
-  isFinished: row.isFinished,
+  isStarted: row.isStarted === 'TRUE',
+  isFinished: row.isFinished === 'TRUE',
   eventUrl: row.eventUrl,
   recordUrl: row.recordUrl,
   freeSlots: row.freeSlots,

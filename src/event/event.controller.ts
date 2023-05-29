@@ -20,7 +20,7 @@ export class EventController {
 
   @Get('/current')
   async getCurrentEvent() {
-    // return events.find((event) => event.isStarted && !event.isFinished)
+    return this.eventService.getCurrentEvent();
   }
 
   @Get('/record')
@@ -38,13 +38,25 @@ export class EventController {
   // TODO: add 'no more free slots interceptor'
   @UseInterceptors(DateInterceptor)
   async addEvent(@Body() event: EventDto) {
-    // return this.eventService.addEvent(event);
+    return this.eventService.addEvent(event);
   }
 
   @Patch('/edit')
   @Header('Content-Type', 'application/json')
   @UseInterceptors(DateInterceptor)
   async editUser(@Query('id') id: IdType, @Body() event: EventDto) {
-    // return this.eventService.editEvent(id, event);
+    return this.eventService.editEvent(id, event);
+  }
+
+  @Patch('/start')
+  @Header('Content-Type', 'application/json')
+  async startEvent(@Query('id') id: IdType, @Body() event: EventDto) {
+    return this.eventService.startEvent(id);
+  }
+
+  @Patch('/finish')
+  @Header('Content-Type', 'application/json')
+  async finishEvent(@Query('id') id: IdType, @Body() event: EventDto) {
+    return this.eventService.startEvent(id);
   }
 }

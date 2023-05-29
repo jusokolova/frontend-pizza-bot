@@ -1,33 +1,35 @@
 import { IsString, IsOptional, IsDateString, IsBoolean } from 'class-validator';
 
+import type { IdType } from 'types';
+
 export class EventDto {
   @IsOptional()
   @IsDateString()
-  date: string;
+  date?: string;
 
   @IsOptional()
   @IsBoolean()
-  isStarted: boolean;
+  isStarted?: 'TRUE' | 'FALSE' | boolean;
 
   @IsOptional()
   @IsBoolean()
-  isFinished: boolean;
+  isFinished?: boolean;
 
   @IsOptional()
-  userIds: string[];
+  userIds?: IdType[];
 
   @IsOptional()
-  talksIds: string[];
-
-  @IsOptional()
-  @IsString()
-  eventUrl: string;
+  talkIds?: IdType[];
 
   @IsOptional()
   @IsString()
-  recordUrl: string;
+  eventUrl?: string;
 
   @IsOptional()
   @IsString()
-  freeSlots: string;
+  recordUrl?: string;
+
+  @IsOptional()
+  @IsString()
+  freeSlots?: string;
 }

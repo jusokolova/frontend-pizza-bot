@@ -3,9 +3,9 @@ import { GoogleSpreadsheetRow } from 'google-spreadsheet';
 
 import type { IdType } from 'types';
 import { EXCEPTIONS } from 'exceptions';
-import { UserDto } from 'user/dto/user.dto';
+import { EventDto } from 'event/dto/event.dto';
 import { GoogleSpreadsheetService } from '../google-spreadsheet.service';
-import { editRow, mapUsersRow } from '../utils';
+import { editRow, mapEventsRow } from '../utils';
 
 @Injectable()
 export class EventSpreadsheetService {
@@ -26,27 +26,27 @@ export class EventSpreadsheetService {
 
   async getRows() {
     await this.initialize();
-    return this.rows.map(mapUsersRow);
+    return this.rows.map(mapEventsRow);
   }
 
-  async getLastUserId(): Promise<number> {
+  async getLastEventId(): Promise<number> {
     await this.initialize();
     const rows = await this.getRows();
 
     return Number(rows[rows.length - 1]?.id) || 0;
   }
 
-  async getUser(
+  async getEvent(
     id: IdType,
-    { name }: UserDto,
+    { date }: EventDto,
   ): Promise<GoogleSpreadsheetRow | string> {
     await this.initialize();
     const rows = await this.getRows();
 
-    return rows.find((user) => user.id === id || user.name === name);
+    return rows.find((event) => event.id === id || event.date === date);
   }
 
-  async addUser(data: UserDto & { id: IdType }): Promise<void | string> {
+  async addEvent(data: EventDto & { id: IdType }): Promise<void | string> {
     await this.initialize();
     const spreadsheet = await this.getSpreadsheet();
 
@@ -57,10 +57,24 @@ export class EventSpreadsheetService {
     }
   }
 
-  async editUser(id: IdType, data: UserDto): Promise<void | string> {
+  async editEvent(id: IdType, data: EventDto): Promise<void | string> {
     await this.initialize();
     const row = this.rows[Number(id) - 1];
     editRow(row, data);
     await row.save();
+  }
+
+  async getCurrentEvent() {
+    await this.initialize();
+    const rows = await this.getRows();
+    return rows.find((event) => event.isStarted && !event.isFinished);
+  }
+
+  async startEvent(id: IdType) {
+    await this.editEvent(id, { isStarted: true });
+  }
+
+  async finishEvent(id: IdType) {
+    await this.editEvent(id, { isStarted: false, isFinished: true });
   }
 }
