@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { GoogleSpreadsheetRow } from 'google-spreadsheet';
 
+import type { IdType } from 'types';
 import { EXCEPTIONS } from 'exceptions';
-import { UserDto, UserIDDto } from 'user/dto/user.dto';
+import { UserDto } from 'user/dto/user.dto';
 import { GoogleSpreadsheetService } from '../google-spreadsheet.service';
 import { editRow, mapUsersRow } from '../utils';
 
@@ -36,7 +37,7 @@ export class UserSpreadsheetService {
   }
 
   async getUser(
-    { id }: UserIDDto,
+    id: IdType,
     { name }: UserDto,
   ): Promise<GoogleSpreadsheetRow | string> {
     await this.initialize();
@@ -45,7 +46,7 @@ export class UserSpreadsheetService {
     return rows.find((user) => user.id === id || user.name === name);
   }
 
-  async addUser(data: UserDto & UserIDDto): Promise<void | string> {
+  async addUser(data: UserDto & { id: IdType }): Promise<void | string> {
     await this.initialize();
     const spreadsheet = await this.getSpreadsheet();
 
@@ -56,7 +57,7 @@ export class UserSpreadsheetService {
     }
   }
 
-  async editUser({ id }: UserIDDto, data: UserDto): Promise<void | string> {
+  async editUser(id: IdType, data: UserDto): Promise<void | string> {
     await this.initialize();
     const row = this.rows[Number(id) - 1];
     editRow(row, data);

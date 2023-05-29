@@ -9,7 +9,8 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 
-import { EventDto, EventIDDto } from './dto/event.dto';
+import type { IdType } from 'types';
+import { EventDto } from './dto/event.dto';
 import { EventService } from './event.service';
 import { DateInterceptor } from 'shared/interceptors';
 
@@ -23,12 +24,12 @@ export class EventController {
   }
 
   @Get('/record')
-  async getEventRecord(@Query() id: EventIDDto, @Body() data: EventDto) {
+  async getEventRecord(@Query('id') id: IdType, @Body() data: EventDto) {
     // return events.find((event) => event.id === id || event.date === data.date)
   }
 
   @Get('/slots')
-  async getFreeSlots(@Query() id: EventIDDto, @Body() data: EventDto) {
+  async getFreeSlots(@Query('id') id: IdType, @Body() data: EventDto) {
     // if event.slots > 0 return "Add self" button, else return "No more free slots"
   }
 
@@ -43,7 +44,7 @@ export class EventController {
   @Patch('/edit')
   @Header('Content-Type', 'application/json')
   @UseInterceptors(DateInterceptor)
-  async editUser(@Query() id: EventIDDto, @Body() event: EventDto) {
+  async editUser(@Query('id') id: IdType, @Body() event: EventDto) {
     // return this.eventService.editEvent(id, event);
   }
 }

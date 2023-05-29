@@ -9,7 +9,8 @@ import {
   Header,
 } from '@nestjs/common';
 
-import { UserDto, UserIDDto } from './dto/user.dto';
+import type { IdType } from 'types';
+import { UserDto } from './dto/user.dto';
 import { UserService } from './user.service';
 import {
   UserExistsInterceptor,
@@ -22,7 +23,7 @@ export class UserController {
 
   @Get('/')
   @UseInterceptors(UserNonexistentInterceptor)
-  async getUser(@Query() id: UserIDDto, @Body() user: UserDto) {
+  async getUser(@Query('id') id: IdType, @Body() user: UserDto) {
     return this.userService.getUser(id, user);
   }
 
@@ -36,7 +37,7 @@ export class UserController {
   @Patch('/edit')
   @UseInterceptors(UserNonexistentInterceptor)
   @Header('Content-Type', 'application/json')
-  async editUser(@Query() id: UserIDDto, @Body() user: UserDto) {
+  async editUser(@Query('id') id: IdType, @Body() user: UserDto) {
     return this.userService.editUser(id, user);
   }
 }

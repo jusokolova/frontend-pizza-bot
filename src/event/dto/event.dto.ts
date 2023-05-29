@@ -1,11 +1,5 @@
 import { IsString, IsOptional, IsDateString, IsBoolean } from 'class-validator';
 
-export class EventIDDto {
-  @IsOptional()
-  @IsString()
-  id: string;
-}
-
 export class EventDto {
   @IsOptional()
   @IsDateString()

@@ -9,8 +9,9 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 
+import type { IdType } from 'types';
 import { DateInterceptor } from 'shared/interceptors';
-import { TalkDto, TalkIDDto } from './dto/talk.dto';
+import { TalkDto } from './dto/talk.dto';
 import { TalkService } from './talk.service';
 import {
   AuthorExistsInterceptor,
@@ -24,7 +25,7 @@ export class TalkController {
 
   @Get('/')
   @UseInterceptors(TalkNonexistentInterceptor)
-  async getUser(@Query() id: TalkIDDto, @Body() talk: TalkDto) {
+  async getUser(@Query('id') id: IdType, @Body() talk: TalkDto) {
     return this.talkService.getTalk(id, talk);
   }
 
@@ -47,7 +48,7 @@ export class TalkController {
     TalkNonexistentInterceptor,
     DateInterceptor,
   )
-  async editUser(@Query() id: TalkIDDto, @Body() talk: TalkDto) {
+  async editUser(@Query('id') id: IdType, @Body() talk: TalkDto) {
     return this.talkService.editTalk(id, talk);
   }
 }

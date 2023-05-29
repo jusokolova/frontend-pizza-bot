@@ -1,11 +1,5 @@
 import { IsString, IsOptional, IsDateString } from 'class-validator';
 
-export class TalkIDDto {
-  @IsOptional()
-  @IsString()
-  id: string;
-}
-
 export class TalkDto {
   @IsOptional()
   @IsString()

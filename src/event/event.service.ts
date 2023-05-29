@@ -1,14 +1,17 @@
 import { Injectable } from '@nestjs/common';
+import type { IdType } from 'types';
 import { UserSpreadsheetService } from 'integration';
 import { mapNewUser } from 'integration/utils';
-import { UserDto, UserIDDto } from 'user/dto/user.dto';
-import { EventDto, EventIDDto } from 'event/dto/event.dto';
+import { UserDto } from 'user/dto/user.dto';
+import { EventDto } from 'event/dto/event.dto';
 
 @Injectable()
 export class EventService {
   constructor(private userSheet: UserSpreadsheetService) {}
 
-  async addEvent(data: EventDto): Promise<(EventDto & EventIDDto) | string> {
+  async addEvent(
+    data: EventDto,
+  ): Promise<(EventDto & { id: IdType }) | string> {
     const newId = (await this.userSheet.getLastUserId()) + 1;
     const newUser = {
       ...mapNewUser(data),
@@ -18,11 +21,11 @@ export class EventService {
     return newUser;
   }
 
-  async editEvent(id: EventIDDto, data: UserDto): Promise<any> {
+  async editEvent(id: IdType, data: UserDto): Promise<any> {
     return await this.userSheet.editUser(id, data);
   }
 
-  async getEvent(id?: EventIDDto, data?: UserDto): Promise<UserDto | string> {
+  async getEvent(id?: IdType, data?: UserDto): Promise<UserDto | string> {
     return await this.userSheet.getUser(id, data);
   }
 }

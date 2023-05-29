@@ -3,19 +3,19 @@ import { GoogleSpreadsheetRow } from 'google-spreadsheet';
 
 import type { IdType } from 'types';
 import { EXCEPTIONS } from 'exceptions';
-import { TalkDto } from 'talk/dto/talk.dto';
+import { UserDto } from 'user/dto/user.dto';
 import { GoogleSpreadsheetService } from '../google-spreadsheet.service';
-import { editRow, mapTalksRow } from '../utils';
+import { editRow, mapUsersRow } from '../utils';
 
 @Injectable()
-export class TalkSpreadsheetService {
+export class EventSpreadsheetService {
   spreadsheet;
   rows;
 
   constructor(private googleSpreadsheets: GoogleSpreadsheetService) {}
 
   private async initialize() {
-    this.spreadsheet = await this.googleSpreadsheets.getTalkSpreadsheet();
+    this.spreadsheet = await this.googleSpreadsheets.getEventSpreadsheet();
     this.rows = await this.spreadsheet.getRows();
   }
 
@@ -26,27 +26,27 @@ export class TalkSpreadsheetService {
 
   async getRows() {
     await this.initialize();
-    return this.rows.map(mapTalksRow);
+    return this.rows.map(mapUsersRow);
   }
 
-  async getLastTalkId(): Promise<number> {
+  async getLastUserId(): Promise<number> {
     await this.initialize();
     const rows = await this.getRows();
 
     return Number(rows[rows.length - 1]?.id) || 0;
   }
 
-  async getTalk(
+  async getUser(
     id: IdType,
-    { title }: TalkDto,
+    { name }: UserDto,
   ): Promise<GoogleSpreadsheetRow | string> {
     await this.initialize();
     const rows = await this.getRows();
 
-    return rows.find((talk) => talk.id === id || talk.title === title);
+    return rows.find((user) => user.id === id || user.name === name);
   }
 
-  async addTalk(data: TalkDto & { id: IdType }): Promise<void | string> {
+  async addUser(data: UserDto & { id: IdType }): Promise<void | string> {
     await this.initialize();
     const spreadsheet = await this.getSpreadsheet();
 
@@ -57,7 +57,7 @@ export class TalkSpreadsheetService {
     }
   }
 
-  async editTalk(id: IdType, data: TalkDto): Promise<void | string> {
+  async editUser(id: IdType, data: UserDto): Promise<void | string> {
     await this.initialize();
     const row = this.rows[Number(id) - 1];
     editRow(row, data);
