@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { ServeStaticModule } from '@nestjs/serve-static';
 
 import {
   GoogleSpreadsheetService,
@@ -14,7 +15,21 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
 @Module({
-  imports: [ConfigModule.forRoot()],
+  imports: [
+    ConfigModule.forRoot(),
+    ServeStaticModule.forRootAsync({
+      useFactory: () => [
+        {
+          rootPath: '/dist',
+          serveRoot: '/static',
+          serveStaticOptions: {
+            index: false,
+            fallthrough: false,
+          },
+        },
+      ],
+    }),
+  ],
   controllers: [AppController, UserController, TalkController],
   providers: [
     AppService,
