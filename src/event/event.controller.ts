@@ -37,13 +37,13 @@ export class EventController {
   // TODO: add 'no more free slots interceptor'
   @UseInterceptors(DateInterceptor)
   async addEvent(@Body() event: EventDto) {
-    return this.eventService.addEvent(event);
+    // return this.eventService.addEvent(event);
   }
 
   @Patch('/edit')
   @Header('Content-Type', 'application/json')
   @UseInterceptors(DateInterceptor)
   async editUser(@Query() id: EventIDDto, @Body() event: EventDto) {
-    return this.eventService.editEvent(id, event);
+    // return this.eventService.editEvent(id, event);
   }
 }
